@@ -1,0 +1,12 @@
+temp/
+data/
+cricsheet/
+catbosst_info/
+depr/
+env/
+__pycache__/
+result/
+static_test/
+temp/
+history/
+.ipynb_checkpoints/

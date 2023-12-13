@@ -1,0 +1,14 @@
+scikit-learn
+pandas
+numpy
+streamlit-echarts
+streamlit
+tqdm
+matplotlib
+beautifulsoup4
+selenium
+webdriver-manager
+chromedriver_autoinstaller
+seleniumbase
+streamlit-analytics
+ydata-profiling
