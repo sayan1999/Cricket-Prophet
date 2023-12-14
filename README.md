@@ -13,7 +13,7 @@ pinned: false
 
 The app is online at https://cricket-prophet.streamlit.app/
 
-# MSE T20: 11.68 ODI: 20.44
+# Metrics: T20 MSE: 11.68                             ODI MSE: 20.44
 
 It takes account of batting team, current run, fall of wkts and gives a realistic prediction of the final score using a #randomforest. Scores are fetched from #cricbuzz site in realtime. It is a better prediction than the projected score as it doesn't only rely on current run rate, but also balls left, wkts left and batting team.
 
