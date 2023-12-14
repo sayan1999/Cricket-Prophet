@@ -111,8 +111,11 @@ def plot_feature_importance(f, imp, fname):
     importance.plot.bar(ax=ax)
     ax.bar_label(ax.containers[0], labels=f, rotation=90, label_type="center")
     ax.set_xticks([])
-    ax.set_title("Feature importances for predicted score " + fname)
-    ax.set_ylabel("Significance")
+    ax.set_title(
+        "Feature importances for 'Predicted deviation of final score from projected score' "
+        + fname.split(".")[0]
+    )
+    ax.set_ylabel("Feature Importance")
     ax.set_xlabel("Features")
     plt.savefig("result/" + fname + "featureimp.png")
     plt.clf()
