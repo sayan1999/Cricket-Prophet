@@ -19,7 +19,6 @@ for folder in ["data", "model", "history", "result", "temp"]:
 
 from model import features
 import streamlit_analytics
-import pysplitter as pysp
 
 # features = [
 #     "batting_team",
@@ -78,25 +77,16 @@ def save_history(fname, row, total_balls):
 
 
 def load_model(format):
-    format = format.lower()
-    pysp.unsplit(
-        f"model/{format}*.split",
-        f"model/{format}.feather.joblib",
+    return joblib.load(
+        "model/"
+        + (
+            "t20features.feather.joblib"
+            if format == "T20"
+            else "odifeatures.feather.joblib"
+            if format == "ODI"
+            else None
+        )
     )
-    return joblib.load(f"model/{format}.feather.joblib")
-
-
-# def load_model(format):
-#     return joblib.load(
-#         "model/"
-#         + (
-#             "t20features.feather.joblib"
-#             if format == "T20"
-#             else "odifeatures.feather.joblib"
-#             if format == "ODI"
-#             else None
-#         )
-#     )
 
 
 def simulator(args, format):
