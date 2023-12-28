@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings, random
 from sklearn.metrics import mean_absolute_error as mae
 from sklearn.metrics import mean_squared_error as mse
+import statistics
 
 # from sklearn import tree
 # from sklearn.svm import SVR
@@ -121,6 +122,41 @@ def plot_feature_importance(f, imp, fname):
     plt.clf()
 
 
+def compare_util(model, fname, x_train, x_test, y_train, y_test, balls_left):
+    print(f'After {(300 if "odi" in fname.lower() else 120) - balls_left} overs')
+    print(
+        f"Variance: {statistics.variance(y_train[x_train['balls_left']<=balls_left])=}, {statistics.variance(y_test[x_test['balls_left']<=balls_left])=}"
+    )
+    print(
+        f"Model: {mse(model.predict(x_train[x_train['balls_left']<=balls_left]), y_train[x_train['balls_left']<=balls_left], squared=False)=}, {mse(model.predict(x_test[x_test['balls_left']<=balls_left]), y_test[x_test['balls_left']<=balls_left], squared=False)=}"
+    )
+
+
+def compare(model, fname, x_train, x_test, y_train, y_test):
+    print("Let's see variation of of deviation_from_projected")
+    if "odi" in fname.lower():
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=300 - 120
+        )
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=300 - 180
+        )
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=300 - 240
+        )
+
+    if "t20" in fname.lower():
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=120 - 30
+        )
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=120 - 60
+        )
+        compare_util(
+            model, fname, x_train, x_test, y_train, y_test, balls_left=120 - 90
+        )
+
+
 def train(fname, max_depth=-1):
     print("training on", fname, "...")
     featuresdf = pd.read_feather(fname)
@@ -165,6 +201,9 @@ def train(fname, max_depth=-1):
     print(
         f"{mse(model.predict(x_train), y_train, squared=False)=}, {mse(model.predict(x_test), y_test, squared=False)=}"
     )
+
+    compare(model, fname, x_train, x_test, y_train, y_test)
+
     evaluate(model, featuresdf, x_test, os.path.basename(fname))
     model.fit(featuresdf[features], featuresdf[target])
 

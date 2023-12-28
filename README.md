@@ -9,24 +9,68 @@ app_file: serve.py
 pinned: false
 ---
 
-# Cricket-Prophet is an AI-Ml based cricket score prediction app.
+# Cricket-Prophet: AI-Powered Cricket Score Prediction
 
-The app is online at https://cricket-prophet.streamlit.app/
+**Predict cricket scores with accuracy beyond traditional projections!**
 
-# Metrics: T20 MSE: 11.68                             ODI MSE: 20.44
+## Key Features
 
-It takes account of batting team, current run, fall of wkts and gives a realistic prediction of the final score using a #randomforest. Scores are fetched from #cricbuzz site in realtime. It is a better prediction than the projected score as it doesn't only rely on current run rate, but also balls left, wkts left and batting team.
+- **Live score scraping:** Stays up-to-date with real-time match data.
+- **Intelligent prediction:** Leverages a Random Forest model for comprehensive analysis.
+- **Factors beyond run rate:** Considers wickets left, last 5 overs, and more for precise predictions.
+- **Comprehensive metrics:** Track MSE scores of 11.68 for T20 and 20.44 for ODI formats.
 
-## ![Cricket-Prophet](static/UI.jpg)
+## Get Started
 
-# ODI
+- **Explore the app:** https://cricket-prophet.streamlit.app/
+- **View the code:** https://github.com/your-username/Cricket-Prophet (replace with your actual repo link)
+
+## How It Works
+
+1. **Live score scraping:** Fetches live match data from CricBuzz.
+2. **Feature engineering:** Extracts relevant features from the match data.
+3. **Model prediction:** Applies a pre-trained Random Forest model to predict the final score.
+4. **Visualization:** Displays predictions and insights clearly.
+
+## Performance Insights
+
+### Why is it better than runrate based projected score?
+
+Refer to the below table, think of variance as MSE of projected score
+
+| Format | Measuring after n balls played | Variance (Train) | Variance (Test) | Model MSE (Train) | Model MSE (Test) |
+| ------ | ------------------------------ | ---------------- | --------------- | ----------------- | ---------------- |
+| T20    | 30                             | 498.41           | 514.90          | 8.88              | 8.91             |
+| T20    | 60                             | 218.03           | 234.74          | 5.78              | 5.89             |
+| T20    | 90                             | 80.19            | 82.53           | 3.94              | 4.03             |
+| ODI    | 120                            | 745.17           | 702.39          | 12.50             | 14.52            |
+| ODI    | 180                            | 360.02           | 358.21          | 9.01              | 10.03            |
+| ODI    | 240                            | 134.28           | 125.87          | 5.00              | 5.93             |
+
+**ODI Format**
+
+- Correlation matrix:
 
 ![correlation](static/ODI_correlation.png)
+
+- Feature importance:
+
 ![feature importance](static/odifeatures.featherfeatureimp.png)
+
+- Evaluation:
+
 ![evaluation](static/odifeatures.feather.png)
 
-# T20
+**T20 Format**
+
+- Correlation matrix:
 
 ![correlation](static/T20_correlation.png)
+
+- Feature importance:
+
 ![feature importance](static/t20features.featherfeatureimp.png)
+
+- Evaluation:
+
 ![evaluation](static/t20features.feather.png)
