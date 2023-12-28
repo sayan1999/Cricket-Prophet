@@ -35,7 +35,7 @@ def selnium(url):
         return False
     except BaseException as e:
         print(traceback.format_exc())
-        print(e.message)
+        print(e)
         return False
 
 

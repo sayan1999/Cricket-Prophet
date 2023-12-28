@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import math
 import matplotlib.pyplot as plt, joblib
+import pysplitter as pysp
 
 
 # from sklearn.linear_model import LinearRegression
@@ -208,6 +209,12 @@ def train(fname, max_depth=-1):
     model.fit(featuresdf[features], featuresdf[target])
 
     joblib.dump(model, f"model/{os.path.basename(fname)}.joblib")
+
+    pysp.split(
+        f"model/{os.path.basename(fname)}.joblib",
+        f"model",
+        5000000,
+    )
     return model
 
 

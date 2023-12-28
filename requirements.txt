@@ -11,4 +11,5 @@ webdriver-manager
 chromedriver_autoinstaller
 seleniumbase
 streamlit-analytics
+pysplitter
 ydata-profiling
