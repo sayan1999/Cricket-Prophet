@@ -11,8 +11,7 @@ from selenium.webdriver.chrome.service import Service
 import chromedriver_autoinstaller
 from selenium.common import exceptions
 
-
-chromedriver_autoinstaller.install()
+chromedriver_autoinstaller.install(cwd=True)
 
 
 options = webdriver.ChromeOptions()

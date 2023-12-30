@@ -10,3 +10,4 @@ static_test/
 temp/
 history/
 .ipynb_checkpoints/
+chromedriver
