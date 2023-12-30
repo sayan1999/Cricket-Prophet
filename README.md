@@ -23,7 +23,6 @@ pinned: false
 ## Get Started
 
 - **Explore the app:** https://cricket-prophet.streamlit.app/
-- **View the code:** https://github.com/your-username/Cricket-Prophet (replace with your actual repo link)
 
 ## How It Works
 
