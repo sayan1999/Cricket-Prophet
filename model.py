@@ -42,15 +42,18 @@ features = [
     # "projected_avg_score_more",
     "runrate_last_5_overs-current_RR",
 ]
-target = "deviation_from_projected"
+target = "deviation_from_projected_rate"
 
 
 # evaluate
 def evaluate(model, featuresdf, x_test, fname):
     predictdf = featuresdf.loc[x_test.index].copy()
     # print(predictdf.columns)
-    predictdf["h_deviation_from_projected"] = model.predict(
+    predictdf["h_deviation_from_projected_rate"] = model.predict(
         featuresdf.loc[x_test.index][features]
+    )
+    predictdf["h_deviation_from_projected"] = (
+        predictdf["h_deviation_from_projected_rate"] * predictdf["balls_left"] / 6
     )
     predictdf["error"] = (
         predictdf["h_deviation_from_projected"] - predictdf["deviation_from_projected"]
@@ -123,12 +126,24 @@ def plot_feature_importance(f, imp, fname):
 
 
 def compare_util(model, fname, x_train, x_test, y_train, y_test, balls_left):
-    print(f'After {(300 if "odi" in fname.lower() else 120) - balls_left} overs')
+    print(f'After {(300 if "odi" in fname.lower() else 120) - balls_left} balls')
+
+    train_index = x_train["balls_left"] <= balls_left
+    test_index = x_test["balls_left"] <= balls_left
+    y_train_data = y_train[train_index] * x_train["balls_left"][train_index] / 6
+    y_test_data = y_test[test_index] * x_test["balls_left"][test_index] / 6
+    h_train_data = (
+        model.predict(x_train[train_index]) * x_train["balls_left"][train_index] / 6
+    )
+    h_test_data = (
+        model.predict(x_test[test_index]) * x_test["balls_left"][test_index] / 6
+    )
+
     print(
-        f"Variance: {statistics.variance(y_train[x_train['balls_left']<=balls_left])=}, {statistics.variance(y_test[x_test['balls_left']<=balls_left])=}"
+        f"Data: Train Variance: {statistics.variance(y_train_data)}, Test Variance: {statistics.variance(y_test_data)}"
     )
     print(
-        f"Model: {mse(model.predict(x_train[x_train['balls_left']<=balls_left]), y_train[x_train['balls_left']<=balls_left], squared=False)=}, {mse(model.predict(x_test[x_test['balls_left']<=balls_left]), y_test[x_test['balls_left']<=balls_left], squared=False)=}"
+        f"Model: Train MSE: {mse(h_train_data, y_train_data, squared=False)}, Test MSE: {mse(h_test_data, y_test_data, squared=False)}"
     )
 
 
@@ -199,7 +214,7 @@ def train(fname, max_depth=-1):
 
     # print(f"{model.score(x_train, y_train)=}, {model.score(x_test, y_test)=}")
     print(
-        f"{mse(model.predict(x_train), y_train, squared=False)=}, {mse(model.predict(x_test), y_test, squared=False)=}"
+        f"Train MSE: {mse(model.predict(x_train)*x_train['balls_left']/6, y_train*x_train['balls_left']/6, squared=False)}, Test MSE: {mse(model.predict(x_test)*x_test['balls_left']/6, y_test*x_test['balls_left']/6, squared=False)}"
     )
 
     compare(model, fname, x_train, x_test, y_train, y_test)

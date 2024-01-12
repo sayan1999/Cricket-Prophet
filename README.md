@@ -11,7 +11,7 @@ pinned: false
 
 # Cricket-Prophet: AI-Powered Cricket Score Prediction
 
-**Predict cricket scores with accuracy beyond traditional projections!**
+**Predict cricket scores with accuracy beyond traditional encounter-based or runrate-based predictions!**
 
 ## Key Features
 
@@ -27,7 +27,7 @@ pinned: false
 ## How It Works
 
 1. **Live score scraping:** Fetches live match data from CricBuzz.
-2. **Feature engineering:** Extracts relevant features from the match data.
+2. **Feature engineering:** Extracts relevant features from the match data and tried to predict deviation of score from projected score
 3. **Model prediction:** Applies a pre-trained Random Forest model to predict the final score.
 4. **Visualization:** Displays predictions and insights clearly.
 
@@ -39,12 +39,12 @@ Refer to the below table, think of variance as MSE of projected score
 
 | Format | Measuring after n balls played | Variance (Train) | Variance (Test) | Model MSE (Train) | Model MSE (Test) |
 | ------ | ------------------------------ | ---------------- | --------------- | ----------------- | ---------------- |
-| T20    | 30                             | 498.41           | 514.90          | 8.88              | 8.91             |
-| T20    | 60                             | 218.03           | 234.74          | 5.78              | 5.89             |
-| T20    | 90                             | 80.19            | 82.53           | 3.94              | 4.03             |
-| ODI    | 120                            | 745.17           | 702.39          | 12.50             | 14.52            |
-| ODI    | 180                            | 360.02           | 358.21          | 9.01              | 10.03            |
-| ODI    | 240                            | 134.28           | 125.87          | 5.00              | 5.93             |
+| T20    | 30                             | 498.41           | 514.90          | 9.02              | 9.26             |
+| T20    | 60                             | 218.03           | 234.74          | 5.73              | 5.89             |
+| T20    | 90                             | 80.19            | 82.53           | 3.82              | 3.79             |
+| ODI    | 120                            | 745.17           | 702.39          | 13.28             | 13.97            |
+| ODI    | 180                            | 360.02           | 358.21          | 9.12              | 9.83             |
+| ODI    | 240                            | 134.28           | 125.87          | 4.33              | 5..06            |
 
 **ODI Format**
 

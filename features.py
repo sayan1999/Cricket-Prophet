@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from cricksheet import get_all_matches
 
-# import ydata_profiling
+import ydata_profiling
 
 
 ## Reading IPL dataset
@@ -16,6 +16,28 @@ n_pools = 100
 
 
 ## Feature selection/creation and ngram creation
+
+features_for_profiling = features = [
+    # "batting_team",
+    # "bowling_team",
+    # "balls",
+    # "runs",
+    # "wickets",
+    "wkt_last_5_overs",
+    # "runrate_last_5_overs",
+    "current_RR",
+    # "average",
+    "balls_left",
+    "wkts_left",
+    # "required_RR",
+    # "projected_score_more",
+    # "min_score_more",
+    # "max_score_more",
+    # "projected_avg_score_more",
+    "runrate_last_5_overs-current_RR",
+    "deviation_from_projected_rate",
+    "deviation_from_projected",
+]
 
 features = [
     "matchid",
@@ -41,6 +63,7 @@ features = [
     "final_score",
     "final_score_more",
     "deviation_from_projected",
+    "deviation_from_projected_rate",
 ]
 
 getformat = {"ODI": 1, "T20": 2}
@@ -113,6 +136,7 @@ def extract_features(inning):
                 inning.final_score,
                 final_score_more,
                 round(deviation_from_projected),
+                (deviation_from_projected * 6) / balls_left,
             )
         )
     return data
@@ -129,7 +153,9 @@ def save_features(innings, fname):
     Xy = [xi for Xi in Xy for xi in Xi]
     print(f"{len(Xy)=}")
     featuresdf = pd.DataFrame(Xy, columns=features)
-    # ydata_profiling.ProfileReport(featuresdf, title=fname).to_file(fname + ".html")
+    ydata_profiling.ProfileReport(
+        featuresdf[features_for_profiling], title=fname
+    ).to_file(fname + ".html")
     featuresdf.to_feather(fname)
     featuresdf.to_csv(fname + ".csv")
 

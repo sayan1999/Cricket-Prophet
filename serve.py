@@ -165,8 +165,9 @@ def predict(url):
         inputdf["batting_team"] = all_teams_enc
     inputdf = inputdf[features]
     model = load_model(format)
-    h = model.predict(inputdf)
-    print(f"{h=}")
+    h_rate = model.predict(inputdf)
+    print(f"{h_rate=}")
+    h = h_rate * balls_left / 6
     projected_score_more = balls_left * current_rr / 6
     projected = math.ceil(projected_score_more + runs)
     predicted_score_more = math.ceil(h.mean() + projected_score_more)
@@ -380,7 +381,7 @@ if __name__ == "__main__":
 
         live_matches = get_live_matches("https://cricbuzz.com")
         if live_matches:
-            option = st.selectbox(
+            option = st.sidebar.selectbox(
                 "Choose a live match here",
                 list(live_matches.keys()) + ["Custom URL", "Simulator"],
             )
@@ -407,9 +408,15 @@ if __name__ == "__main__":
                     - args["current_RR"]
                 )
                 balls = 300 if format == "ODI" else 120
-                st.text(
-                    str(int((balls * args["current_RR"] / 6) + simulator(args, format)))
-                )
+                if st.button("Predict"):
+                    st.text(
+                        str(
+                            int(
+                                (balls * args["current_RR"] / 6)
+                                + simulator(args, format) * args["balls_left"] / 6
+                            )
+                        )
+                    )
             else:
                 if option == "Custom URL":
                     url = st.text_input("Enter cricbuzz match link")
