@@ -18,7 +18,7 @@ pinned: false
 - **Live score scraping:** Stays up-to-date with real-time match data.
 - **Intelligent prediction:** Leverages a Random Forest model for comprehensive analysis.
 - **Factors beyond run rate:** Considers wickets left, last 5 overs, and more for precise predictions.
-- **Comprehensive metrics:** Track MSE scores of 11.68 for T20 and 20.44 for ODI formats.
+- **Comprehensive metrics:** Track MSE: 11.68, R2: 80% for T20 and MSE: 20.44, R2: 85% for ODI formats.
 
 ## Get Started
 

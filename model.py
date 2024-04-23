@@ -15,6 +15,7 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings, random
 from sklearn.metrics import mean_absolute_error as mae
 from sklearn.metrics import mean_squared_error as mse
+from sklearn.metrics import r2_score
 import statistics
 
 # from sklearn import tree
@@ -145,6 +146,9 @@ def compare_util(model, fname, x_train, x_test, y_train, y_test, balls_left):
     print(
         f"Model: Train MSE: {mse(h_train_data, y_train_data, squared=False)}, Test MSE: {mse(h_test_data, y_test_data, squared=False)}"
     )
+    print(
+        f"Model: Train R2: {r2_score(y_train_data, h_train_data)}, Test R2: {r2_score(y_test_data, h_test_data)}"
+    )
 
 
 def compare(model, fname, x_train, x_test, y_train, y_test):
@@ -215,6 +219,10 @@ def train(fname, max_depth=-1):
     # print(f"{model.score(x_train, y_train)=}, {model.score(x_test, y_test)=}")
     print(
         f"Train MSE: {mse(model.predict(x_train)*x_train['balls_left']/6, y_train*x_train['balls_left']/6, squared=False)}, Test MSE: {mse(model.predict(x_test)*x_test['balls_left']/6, y_test*x_test['balls_left']/6, squared=False)}"
+    )
+
+    print(
+        f"Train R2: {r2_score(y_train*x_train['balls_left']/6, model.predict(x_train)*x_train['balls_left']/6)}, Test R2: {r2_score(y_test*x_test['balls_left']/6, model.predict(x_test)*x_test['balls_left']/6)}"
     )
 
     compare(model, fname, x_train, x_test, y_train, y_test)
