@@ -18,7 +18,7 @@ for folder in ["data", "model", "history", "result", "temp"]:
 # In[16]:
 
 from model import features
-import streamlit_analytics
+import streamlit_analytics2 as streamlit_analytics
 
 # features = [
 #     "batting_team",
@@ -82,9 +82,7 @@ def load_model(format):
         + (
             "t20features.feather.joblib"
             if format == "T20"
-            else "odifeatures.feather.joblib"
-            if format == "ODI"
-            else None
+            else "odifeatures.feather.joblib" if format == "ODI" else None
         )
     )
 
@@ -248,13 +246,15 @@ def getoption(predicted, maxscore):
                 "title": {
                     "offsetCenter": [0, "-20%"],
                     "fontSize": 20,
-                    "color": "#0000FF"
-                    if predicted > maxscore * 0.75
-                    else "#00FF00"
-                    if predicted > maxscore * 0.5
-                    else "#FDDD60"
-                    if predicted > maxscore * 0.25
-                    else "#FF403F",
+                    "color": (
+                        "#0000FF"
+                        if predicted > maxscore * 0.75
+                        else (
+                            "#00FF00"
+                            if predicted > maxscore * 0.5
+                            else "#FDDD60" if predicted > maxscore * 0.25 else "#FF403F"
+                        )
+                    ),
                 },
                 "detail": {
                     "fontSize": 15,
@@ -309,7 +309,7 @@ def render(url):
     ret = predict(url.strip())
     if len(ret) == 1:
         err = ret[0]
-        markdown.append("Error fetching url...")
+        markdown.append(f"Error fetching url... {err}")
         return markdown, None, None
     (
         matchState,

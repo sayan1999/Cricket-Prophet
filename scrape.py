@@ -88,16 +88,19 @@ def scrape(url):
             "\n".join(map(lambda x: x.text, soup.find_all("script"))),
         )[0]
         print(f"{format=}")
-        if format not in {"ODI", "T20"}:
-            raise BaseException("Not ODI or T20")
+        assert format in {"ODI", "T20"}, f"Match format is {format}, Not ODI or T20"
         status = (
             soup.find_all("div", {"class": "cb-text-inprogress"})[0].text
             if matchState == "inprogress"
-            else soup.find_all("div", {"class": "cb-text-complete"})[0].text
-            if matchState == "complete"
-            else soup.find_all("div", {"class": "cb-text-inningsbreak"})[0].text
-            if matchState == "inningsbreak"
-            else ""
+            else (
+                soup.find_all("div", {"class": "cb-text-complete"})[0].text
+                if matchState == "complete"
+                else (
+                    soup.find_all("div", {"class": "cb-text-inningsbreak"})[0].text
+                    if matchState == "inningsbreak"
+                    else ""
+                )
+            )
         )
         score = (
             soup.find_all("div", {"class": "cb-min-bat-rw"})[0].text

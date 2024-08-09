@@ -10,6 +10,6 @@ selenium
 webdriver-manager
 chromedriver_autoinstaller
 seleniumbase
-streamlit-analytics
+streamlit-analytics2
 pysplitter
 ydata-profiling
